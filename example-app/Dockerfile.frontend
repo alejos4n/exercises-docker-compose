@@ -1,0 +1,35 @@
+
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 16
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+    && apt-get update \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /usr/src/app
+
+# Copy dependency manifests from exercise 1_12
+COPY frontend/package*.json ./
+RUN npm install
+
+# Copy React source code
+COPY frontend/ .
+
+# Configure backend URL before building React
+ENV REACT_APP_BACKEND_URL=http://localhost:8080
+
+RUN npm run build
+
+RUN npm install -g serve
+
+EXPOSE 5001
+
+CMD ["serve", "-s", "-l", "5001", "build"]

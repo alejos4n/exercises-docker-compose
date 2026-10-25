@@ -1,0 +1,18 @@
+
+FROM golang:1.16
+
+WORKDIR /usr/src/app
+
+# Copy the source code from exercise 1_13
+COPY backend/ .
+
+# Compile the Go backend
+RUN go build -o server
+
+# Configure the application
+ENV PORT=8080
+ENV REQUEST_ORIGIN=http://localhost:5001
+
+EXPOSE 8080
+
+CMD ["./server"]
