@@ -31,6 +31,8 @@ services:
     
     environment:
       - PORT=8080
+      # El navegador carga la app desde Nginx, así que ese es el origen permitido (CORS)
+      - REQUEST_ORIGIN=http://localhost:8000
       # Variables esenciales para que el backend se conecte a Postgres:
       - POSTGRES_HOST=db
       - POSTGRES_USER=postgres
