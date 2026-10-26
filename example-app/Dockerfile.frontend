@@ -24,7 +24,8 @@ RUN npm install
 COPY frontend/ .
 
 # Configure backend URL before building React
-ENV REACT_APP_BACKEND_URL=http://localhost:8080
+ARG REACT_APP_BACKEND_URL=http://localhost:8080
+ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
 
 RUN npm run build
 

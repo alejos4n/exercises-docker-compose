@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Servicio de Nginx (Único punto de entrada expuesto)
   nginx:
@@ -48,8 +46,9 @@ services:
     build:
       context: ../example-app
       dockerfile: Dockerfile.frontend
-
-    environment:
-      - REACT_APP_BACKEND_URL=http://localhost:8080/api
+      # REACT_APP_BACKEND_URL se resuelve al construir el bundle de React,
+      # por eso va como build arg y apunta al proxy (backend ya no expone 8080)
+      args:
+        - REACT_APP_BACKEND_URL=http://localhost:8000/api
     depends_on:
       - backend
